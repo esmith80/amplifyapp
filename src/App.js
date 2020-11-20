@@ -13,7 +13,7 @@ function App() {
         <label for="lname">Last name:</label>
         <input type="text" id="lname" name="lname" />
         <input type="submit" value="Submit"></input>
-        <button onclick={() => alert('hello world!')}>Click me</button>
+        <button onclick={(e) => alert('hello world!')}>Click me</button>
       </header>
     </div>
   );
