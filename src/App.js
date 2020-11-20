@@ -16,7 +16,7 @@ function App() {
         <label for="lname">Last name:</label>
         <input type="text" id="lname" name="lname" />
         <input type="submit" value="Submit"></input>
-        <button onclick={sayHello()}>Say Hello</button>
+        <button onclick={(event) => {sayHello()}}>Say Hello</button>
       </header>
     </div>
   );
