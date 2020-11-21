@@ -1,24 +1,26 @@
-import { React, useState } from 'react';
+import React, { useState } from 'react';
+import { Combine, timeToHarvest, costPerRun, totalEfficiency } from './helpers'
 
-const handleSubmission = (combine) => {
+const handleSubmission = (c) => {
+  const combine = new Combine(c.augerLength, c.fuelType, c.wheelSize)
   alert(`Combine Data:
-  Auger: ${combine.auger} feet
-  Wheel: ${combine.wheel} inches
-  Type: ${combine.type}`);
+    Auger: ${combine.augerLength} feet
+    Wheel: ${combine.wheelSize} inches
+    Type: ${combine.fuelType}
+    Weight: ${combine.weight.toFixed(0)} lbs
+    Cost Per Run: $${costPerRun(combine).toFixed(2)}
+    Time to Harvest: ${(timeToHarvest(combine)/60).toFixed(2)} hours
+    Total Efficiency: ${(totalEfficiency(combine) * 100).toFixed(1)}% efficient
+  `);
 }
 
 function Form() {
 
-  let initialCombine = {
-    auger: 8.7,
-    wheel: 60,
-    type: "diesel"
-  }
-
+  let initialCombine = new Combine(8.7, 'diesel', 60);
+  
   const [combine, updateCombine] = useState(initialCombine);
 
   return (
-
     <form>
       <label htmlFor="auger">Auger
         <input
@@ -28,8 +30,8 @@ function Form() {
           min="8.7"
           max="25.7"
           step="1"
-          value={combine.auger}
-          onChange={(event) => updateCombine({...combine, auger: event.target.value})}
+          value={combine.augerLength}
+          onChange={(event) => updateCombine({...combine, augerLength: event.target.value})}
         />
       </label>
       <br />
@@ -43,8 +45,8 @@ function Form() {
           min="60"
           max="90"
           step="1"
-          value={combine.wheel}
-          onChange={(event) => updateCombine({...combine, wheel: event.target.value})}
+          value={combine.wheelSize}
+          onChange={(event) => updateCombine({...combine, wheelSize: event.target.value})}
          />
       </label>
       <br />
@@ -54,9 +56,9 @@ function Form() {
         <input
           name="fuelType"
           type="radio"
-          value={combine.type}
-          checked={combine.type === "diesel"}
-          onChange={() => updateCombine({...combine, type: "diesel"})}
+          value={combine.fuelType}
+          checked={combine.fuelType === "diesel"}
+          onChange={() => updateCombine({...combine, fuelType: "diesel"})}
         />
         Diesel
       </label>
@@ -66,8 +68,8 @@ function Form() {
           name="fuelType"
           type="radio"
           value={combine.type}
-          checked={combine.type === "electric"}
-          onChange={() => updateCombine({...combine, type: "electric"})}
+          checked={combine.fuelType === "electric"}
+          onChange={() => updateCombine({...combine, fuelType: "electric"})}
         />
         Electric
       </label>
@@ -75,10 +77,17 @@ function Form() {
       <br />
 
       <input
-        value="Create Combine"
+        value="Generate Report"
         name="submit"
         type="button"
         onClick={() => handleSubmission(combine)}
+      />
+      <br />
+      <input
+        value="Reset"
+        name="submit"
+        type="button"
+        onClick={() => updateCombine(new Combine(8.7, 'diesel', 60))}
       />
     </form>
   );
