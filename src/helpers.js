@@ -43,7 +43,6 @@ export class Combine {
     for (let i = 0; i < extraFeet; i++) {
       weight += (.08 * weight);
     }
-    console.log(typeof weight);
     return weight;
   }
 
