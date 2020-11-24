@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Combine, timeToHarvest, costPerRun, totalEfficiency } from './helpers'
 
 const handleSubmission = (c) => {
+  // because the methods associated with the combine passed in dissappear after a single refresh, a new Combine is created
+  // and used to display the alert (because some data depends on the methods of the combine class)
   const combine = new Combine(c.augerLength, c.fuelType, c.wheelSize)
   alert(`Combine Data:
     Auger: ${combine.augerLength} feet
