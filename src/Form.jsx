@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Combine, timeToHarvest, costPerRun, totalEfficiency } from './helpers'
+import { Combine, timeToHarvest, costPerRun, totalEfficiency, setRock, calcCoverage } from './helpers'
 
 const handleSubmission = (c) => {
   // because the methods associated with the combine passed in dissappear after a single refresh, a new Combine is created
   // and used to display the alert (because some data depends on the methods of the combine class)
-  const combine = new Combine(c.augerLength, c.fuelType, c.wheelSize)
+  const rocks = [ setRock(), setRock(), setRock() ];
+  const combine = new Combine(c.augerLength, c.fuelType, c.wheelSize);
+  const coverage = calcCoverage(Number(combine.augerLength), rocks);
+
   alert(`Combine Data:
     Auger: ${combine.augerLength} feet
     Wheel: ${combine.wheelSize} inches
@@ -13,6 +16,8 @@ const handleSubmission = (c) => {
     Cost Per Run: $${costPerRun(combine).toFixed(2)}
     Time to Harvest: ${(timeToHarvest(combine)/60).toFixed(2)} hours
     Total Efficiency: ${(totalEfficiency(combine) * 100).toFixed(1)}% efficient
+    There are rocks in rows: ${rocks[0].y}, ${rocks[1].y}, ${rocks[2].y} 
+    Coverage of the field: ${coverage}
   `);
 }
 

@@ -104,25 +104,47 @@ export const timeToHarvest = (combine) => {
   return (totalTime / 60);
 };
 
-// const combineA = new Combine(8.7, 'diesel', 60);
-// const combineB = new Combine(17.7, 'electric', 63);
+// field is square (i.e. height === width)
+const fieldHeight = 660;
 
-// combineA.run();
+// create a rock in a 660 ft X 660 ft field (x and y coordiantes are integers in a 660 X 660 foot grid)
+export const setRock = () => {
+  return { x: Math.ceil(Math.random() * fieldHeight), y: Math.ceil(Math.random() * fieldHeight) }
+}
 
-// // console.table(combineA);
-// // console.log('WEIGHT: ', combineA.weight.toFixed(0), ' lbs');
-// // console.log('TIME TO HARVEST: ', timeToHarvest(combineA), ' minutes');
-// // console.log('COST PER RUN (10 acres): $', costPerRun(combineA).toFixed(2));
+// this function returns a percentage of field that can be covered based on combine width and position of rocks
+// implements a simple algorithm whereby field is checked in increments based on width of combine - if a rock is detected the width moves down 1 foot (the known width of a rock) and checks again
+// assumption: combine is a 1 dimensional object with ability to be positioned on very edge of field and move down on that edge
+// assumption: combine width is same as its auger length
+export const calcCoverage = (rowHeight, rocks) => {
+  let sqFeetCoverage = 0;
+  let rowBegin = 0;
+  let lastPass = false;
 
-
-// for (let i = 0; i < 100; i++) {
-//   combineB.run();
-// }
-// console.table(combineB);
-// console.log('COST PER RUN (10 acres): $', costPerRun(combineB).toFixed(2));
-
-// console.log('total efficiency for combineB: ', totalEfficiency(combineB));
-
-// // console.log('WEIGHT: ', combineB.weight.toFixed(0), ' lbs');
-// // console.log('TIME TO HARVEST: ', timeToHarvest(combineB), ' minutes');
-
+  while(!lastPass) {
+    let rowEnd = rowBegin + rowHeight;    
+    // assumption: tractor cannot extend past edge of field - it must allow its width to occupy bottom edge of field, often overlapping its previous pass 
+    if(rowEnd > fieldHeight) {
+      rowBegin = fieldHeight - rowHeight;
+      rowEnd = fieldHeight;
+      lastPass = true;
+    }
+    // test for rock in that row
+    let rockFound = false;
+    for(let rock of rocks) {
+      // if rock found, move combine width down by 1 foot (known width of a rock) and try again
+      if(rowBegin <= rock.y && rowEnd >= rock.y) {
+        rowBegin++;
+        rockFound = true;
+        break;
+      }      
+    }
+    if(!rockFound) {
+      // move combine down an entire width and add total to square feet coverage
+      sqFeetCoverage += rowHeight * fieldHeight;
+      // 0.1 is added so that in cases where combine successfully planes 2 consecutive rows, the boundary between those consecutive rows is not counted twice when considering the area (otherwise could result in an area covered of over 100%)
+      rowBegin += rowHeight + 0.1;
+    }
+  }
+  return (sqFeetCoverage / (fieldHeight * fieldHeight)) * 100;
+}
