@@ -18,7 +18,7 @@ function App() {
   }
   
   const updateCombines = (params) => {
-    setCombines([...combines, new Combine(params.augerLength, params.fuelType, params.wheelSize)]);
+    setCombines([...combines, new Combine(Number(params.augerLength), params.fuelType, Number(params.wheelSize))]);
   }
 
   const updateRocks = () => {
