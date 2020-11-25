@@ -1,24 +1,4 @@
-// ATG Pharma internship functions
-
-/*
-
-base model combine takes 240 passes * 300 seconds on 10 acres (660 X 660 ft)
-8.7 feet augerLength * 240 = 2088 square feet per pass?
-240 passes * 5 minutes = 72000 seconds
-
-660 ft / 240 passes = 2.75 feet per pass
-you get 2.75 feet per pass with a 8.7 ft augerLength
-2.75/8.7 = feetPerPass (0.31609195 extra feet of width per pass)
-
-feetPerPass = 2.75 + (extraFeet * 2.75 / 8.7)
-
-numPasses = 660 ft / feetPerPass
-
-timeTaken = numPasses * 300
-
-so augerLengthLength = 2088 / numberOfPasses
-
-*/
+// functions in this file are main business logic
 
 // assumptions: a Combine has default attributes, but can be configured with bigger wheelSizes, new augerLength, (but its fuelType cannot be changed)
 
@@ -51,18 +31,10 @@ export class Combine {
   }
 }
 
-//To clarify,  let’s assume that the 
-// time taken is 650 min and the 
-// percentage of field covered by the run was 85% and the 
-// run cost was 250 the 
-// efficiency value should be:
-//  ( (600/650) + (0.85) + (250/350) ) /3
+// total efficiency (formula was double checked with ATG, though the numbers do not add up)
 
-//  Which is 82.9% efficient . the average is taken from the 3 parameters in the equation
-
-
-export const totalEfficiency = (combine) => {
-  let fieldCoverage = .85;
+export const totalEfficiency = (combine, rocks) => {
+  let fieldCoverage = calcCoverage(combine.augerLength, rocks);
   return ((600 / timeToHarvest(combine)) + fieldCoverage + (costPerRun(combine)/350)) / 3;
 }
 
@@ -80,8 +52,7 @@ export const costPerRun = (combine) => {
     return (1 + costOffset) * (combine.weight / poundsPerDollar);
   }
 }
-
-// this assumes no rocks in the field
+ 
 export const timeToHarvest = (combine) => {
   
   const extraFeet = combine.augerLength - 8.7; // 8.7 is the base level
