@@ -1,6 +1,18 @@
-# Getting Started with Create React App
+# CARS (Combine Automation Report Simulator)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Author: Edward Smith
+
+This project is a simple React SPA which allows a user to configure a combine (harvesting machine) with various attributes (auger length, wheel size, and fuel type) and add the combine to the fleet. The combine's statistics on cost, run time, efficiency can be seen in the table at the bottom of the page.
+
+Here's a short screen capture that shows the main features (configuring attributes, adding a combine, changing the position of rocks, running the combines).
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/eOl9PyUyc0M" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+===============
+
+Below is information about running the program
+
+
 
 ## Available Scripts
 
