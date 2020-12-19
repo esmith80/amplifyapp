@@ -4,6 +4,8 @@ Author: Edward Smith
 
 This project is a simple React SPA which allows a user to configure a combine (harvesting machine) with various attributes (auger length, wheel size, and fuel type) and add the combine to the fleet. The combine's statistics on cost, run time, efficiency can be seen in the table at the bottom of the page.
 
+This project is NOT finished (the UI for the table and report display will be improved at a later time).
+
 Here's a link to a short screen capture that shows the main features (configuring attributes, adding a combine, changing the position of rocks, running the combines).
 
 [![CARS Demo](http://img.youtube.com/vi/eOl9PyUyc0M/0.jpg)](https://youtu.be/eOl9PyUyc0M "CARS Demo")
